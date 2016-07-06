@@ -2,6 +2,7 @@
 //  OpenShift sample Node application
 var express = require('express');
 var fs      = require('fs');
+var logger  = require('morgan');:w
 
 
 /**
@@ -93,6 +94,7 @@ var SampleApp = function() {
      *  Create the routing table entries + handlers for the application.
      */
     self.createRoutes = function() {
+        console.log("createRoutes()...");
         self.routes = { };
 
         self.routes['/asciimo'] = function(req, res) {
@@ -112,8 +114,10 @@ var SampleApp = function() {
      *  the handlers.
      */
     self.initializeServer = function() {
+        console.log("initialServer()...");
         self.createRoutes();
         self.app = express.createServer();
+        self.app.use(logger('dev'));
 
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {
@@ -126,6 +130,7 @@ var SampleApp = function() {
      *  Initializes the sample application.
      */
     self.initialize = function() {
+        console.log("initialize()...");
         self.setupVariables();
         self.populateCache();
         self.setupTerminationHandlers();
@@ -139,6 +144,7 @@ var SampleApp = function() {
      *  Start the server (starts up the sample application).
      */
     self.start = function() {
+        console.log("start()...");
         //  Start the app on the specific interface (and port).
         self.app.listen(self.port, self.ipaddress, function() {
             console.log('%s: Node server started on %s:%d ...',
